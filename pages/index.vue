@@ -1,77 +1,76 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+  <v-row>
+    <v-col cols="6" sm="4" md="3" xl="2" v-for="item in boards" :key="item.id" >
+      <nuxt-link :to="{ name: 'board-id', params: { id: item.id }}">
+        <v-card class="board-card" :id="item.id">
+          <v-img
+            :src="item.imgUrl"
+            class="white--text align-end"
+            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+            aspect-ratio="1.9"
           >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
+            <v-card-title v-text="item.name"></v-card-title>
+          </v-img>
+
+        </v-card>
+      </nuxt-link>
+    </v-col>
+    <v-col cols="6" sm="4" md="3" xl="2">
+      <v-card class="board-card">
+        <v-img
+          class="white--text align-center justify-center"
+          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+          aspect-ratio="1.9"
+        >
+            <p class="mb-0 text-center">Create new board</p>
+        </v-img>
       </v-card>
     </v-col>
   </v-row>
 </template>
+
+<script>
+import Vuex from 'vuex'
+
+export default {
+  data () {
+    return {
+      boards: [
+        {
+          id: 1,
+          name: "board 1",
+          imgUrl: "https://cdn.vuetifyjs.com/images/cards/house.jpg"
+        },
+        {
+          id: 2,
+          name: "board 2",
+          imgUrl: "https://cdn.vuetifyjs.com/images/cards/road.jpg"
+        },
+      ]
+    }
+  },
+}
+</script>
+<style lang="scss" scoped>
+.board-card{
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+  &:hover{
+    &::after{
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #333;
+      opacity: 0.2;
+    }
+  }
+  .new-board-text{
+    position: absolute;
+
+  }
+}
+</style>
