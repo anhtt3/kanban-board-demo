@@ -3,7 +3,13 @@ export const state = () => ({
 })
 
 export const mutations = {
-  increment(state, payload) {
+  addBoard(state, payload) {
     state.boards.push(payload)
+  }
+}
+
+export const actions = {
+  addBoard({commit}, board){
+    commit('addBoard', board)
   }
 }
