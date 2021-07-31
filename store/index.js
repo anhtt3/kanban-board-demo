@@ -34,6 +34,9 @@ export const mutations = {
   generateId(state) {
     state.generatedId++
   },
+  generateTaskId(state, id) {
+    state.boards.find(board => board.id === id).data.generatedTaskId++
+  },
   addBoard(state, payload) {
     state.boards = [...state.boards, payload];
   },
@@ -51,12 +54,16 @@ export const mutations = {
   },
   editInProgress(state, {id, payload}) {
     state.boards.find(board => board.id === id).data.inProgress = [...payload]
+  },
+  editDone(state, {id, payload}) {
+    state.boards.find(board => board.id === id).data.done = [...payload]
   }
 }
 
 export const actions = {
   addBoard({commit}, board){
     Vue.set(board, 'data', {
+      generatedTaskId: 1,
       todo: [],
       inProgress: [],
       done: [],
@@ -80,10 +87,10 @@ export const actions = {
   addTask({commit, state}, {id, payload}) {
     const currentBoardData = state.boards.find(board => board.id === id).data;
     if(!currentBoardData.todo.length) {
-      payload.id = 1;
+      payload.id = currentBoardData.generatedTaskId;
     } else {
-      let lastId = currentBoardData.todo[currentBoardData.todo.length - 1].id;
-      payload.id = lastId += 1
+      commit('generateTaskId', id);
+      payload.id = currentBoardData.generatedTaskId;
     }
     commit('addTask', {id, payload});
   },
@@ -92,5 +99,8 @@ export const actions = {
   },
   editInProgress({commit, state}, {id, payload}) {
     commit('editInProgress', {id, payload});
+  },
+  editDone({commit, state}, {id, payload}) {
+    commit('editDone', {id, payload});
   }
 }

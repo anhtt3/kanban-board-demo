@@ -13,23 +13,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-card-title>
-        <div class="task_list">
-          <v-list class="list">
-            <draggable v-model="todoList" group="all-tasks" ghost-class="ghost">
-              <v-list-item v-for="(item, index) in todoList" :key="item.id">
-                <v-hover v-slot="{ hover }">
-                  <v-card class="task-card d-flex">
-                    {{item.description}}
-                    <v-spacer></v-spacer>
-                    <v-btn v-if="hover" icon class="task-edit-btn" color="info" @click="editBoardDialog = true">
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                  </v-card>
-                </v-hover>
-              </v-list-item>
-            </draggable>
-          </v-list>
-        </div>
+       <TaskCard :board-id="boardId" type="todoList"/>
       </v-card>
     </v-col>
     <v-col cols="4">
@@ -37,23 +21,7 @@
         <v-card-title>
           In progress
         </v-card-title>
-        <div class="task_list">
-          <v-list class="list">
-            <draggable v-model="inProgressList" group="all-tasks" ghost-class="ghost">
-              <v-list-item v-for="(item, index) in inProgressList" :key="item.id">
-                <v-hover v-slot="{ hover }">
-                  <v-card class="task-card d-flex">
-                    {{item.description}}
-                    <v-spacer></v-spacer>
-                    <v-btn v-if="hover" icon class="task-edit-btn" color="info" @click="editBoardDialog = true">
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                  </v-card>
-                </v-hover>
-              </v-list-item>
-            </draggable>
-          </v-list>
-        </div>
+        <TaskCard :board-id="boardId" type="inProgressList"/>
       </v-card>
     </v-col>
     <v-col cols="4">
@@ -61,9 +29,9 @@
         <v-card-title>
           Done
         </v-card-title>
+        <TaskCard :board-id="boardId" type="doneList"/>
       </v-card>
     </v-col>
-
 
 <!--    ADD TASK DIALOG-->
     <v-dialog
@@ -104,7 +72,6 @@
   </v-row>
 </template>
 <script>
-import draggable from 'vuedraggable'
 
 const taskModel =  {
   id: "",
@@ -113,35 +80,14 @@ const taskModel =  {
 
 export default {
   props: ['boardId'],
-  components: {
-    draggable,
-  },
   data() {
     return {
       addingTaskDialog: false,
-      newTask: {...taskModel}
+      newTask: {...taskModel},
+      group: 'all-tasks'
     }
   },
-  computed: {
-    todoList: {
-      get() {
-          return this.$store.getters.todoList(this.boardId)
-      },
-      set(value) {
-        const id = this.boardId;
-        this.$store.dispatch('editTodo', {id: id, payload: value})
-      }
-    },
-    inProgressList: {
-      get() {
-        return this.$store.getters.inProgressList(this.boardId)
-      },
-      set(value) {
-        const id = this.boardId;
-        this.$store.dispatch('editInProgress', {id: id, payload: value})
-      }
-    }
-  },
+
   methods: {
     addTask() {
       const payload = {...this.newTask};
