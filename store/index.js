@@ -19,15 +19,9 @@ export const getters = {
   boardDetails: state => id => {
     return state.boards.find(board => board.id === id)
   },
-  todoList: state => id => {
-    return state.boards.find(board => board.id === id).data.todo
-  },
-  inProgressList: state => id => {
-    return state.boards.find(board => board.id === id).data.inProgress
-  },
-  doneList: state => id => {
-    return state.boards.find(board => board.id === id).data.done
-  },
+  taskList: state => (id,type) => {
+    return state.boards.find(board => board.id === id).data[type]
+  }
 }
 
 export const mutations = {
@@ -49,15 +43,13 @@ export const mutations = {
   addTask(state, {id, payload}) {
     state.boards.find(board => board.id === id).data.todo.push(payload)
   },
-  editTodo(state, {id, payload}) {
-    state.boards.find(board => board.id === id).data.todo = [...payload]
+  editTask(state, {id, type, payload}) {
+    state.boards.find(board => board.id === id).data[type] = [...payload]
   },
-  editInProgress(state, {id, payload}) {
-    state.boards.find(board => board.id === id).data.inProgress = [...payload]
+  deleteTask(state, {boardId, type, index}) {
+    state.boards.find(board => board.id === boardId).data[type].splice(index, 1);
   },
-  editDone(state, {id, payload}) {
-    state.boards.find(board => board.id === id).data.done = [...payload]
-  }
+
 }
 
 export const actions = {
@@ -94,13 +86,11 @@ export const actions = {
     }
     commit('addTask', {id, payload});
   },
-  editTodo({commit, state}, {id, payload}) {
-    commit('editTodo', {id, payload});
+  editTask({commit, state}, {id, type, payload}) {
+    commit('editTask', {id,type, payload});
   },
-  editInProgress({commit, state}, {id, payload}) {
-    commit('editInProgress', {id, payload});
+  deleteTask({commit, state}, {boardId, type, id}) {
+    let index = state.boards.find(board => board.id === boardId).data[type].map(item => item.id).indexOf(id);
+    commit('deleteTask', {boardId, type, index});
   },
-  editDone({commit, state}, {id, payload}) {
-    commit('editDone', {id, payload});
-  }
 }

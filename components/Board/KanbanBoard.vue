@@ -13,23 +13,23 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-card-title>
-       <TaskCard :board-id="boardId" type="todoList"/>
+       <TaskCard :board-id="boardId" type="todo"/>
       </v-card>
     </v-col>
     <v-col cols="4">
       <v-card>
         <v-card-title>
-          In progress
+          In progress <sub class="caption ml-2"> (max: 10)</sub>
         </v-card-title>
-        <TaskCard :board-id="boardId" type="inProgressList"/>
+        <TaskCard :board-id="boardId" type="inProgress"/>
       </v-card>
     </v-col>
     <v-col cols="4">
       <v-card>
         <v-card-title>
-          Done
+          Done <sub class="caption ml-2"> (max: 10)</sub>
         </v-card-title>
-        <TaskCard :board-id="boardId" type="doneList"/>
+        <TaskCard :board-id="boardId" type="done"/>
       </v-card>
     </v-col>
 
@@ -91,8 +91,7 @@ export default {
   methods: {
     addTask() {
       const payload = {...this.newTask};
-      const id = this.boardId;
-      this.$store.dispatch('addTask', {id: id, payload: payload});
+      this.$store.dispatch('addTask', {id: this.boardId, payload: payload});
       this.closeAddTaskDialog();
     },
     closeAddTaskDialog() {
@@ -103,18 +102,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-::v-deep .task-card{
-  position: relative;
-  background: #222;
-  width: 100%;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-  cursor: pointer;
-  .task-edit-btn{
-    position: absolute;
-    right: 1rem;
-    top: 0.5rem;
-  }
-}
-</style>
