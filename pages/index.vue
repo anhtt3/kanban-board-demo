@@ -75,6 +75,7 @@ export default {
       this.pickedBackground = url
     },
     onSaveBoard(newBoard) {
+      //Because not using real server so this function is for creating ID for board
       const id = this.$store.state.generatedId;
       newBoard.id = id;
       this.$store.dispatch('addBoard', newBoard);

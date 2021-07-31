@@ -93,11 +93,9 @@ export default {
   data() {
     const imgBackgrounds = [
       {
-        id: 1,
         url: "https://cdn.vuetifyjs.com/images/cards/house.jpg"
       },
       {
-        id: 2,
         url: "https://cdn.vuetifyjs.com/images/parallax/material.jpg"
       }
     ];

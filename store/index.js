@@ -16,7 +16,10 @@ export const getters = {
   },
   boardDetails: state => id => {
     return state.boards.find(board => board.id === id)
-  }
+  },
+  todoList: state => id => {
+    return state.boards.find(board => board.id === id).data.todo
+  },
 }
 
 export const mutations = {
@@ -31,11 +34,22 @@ export const mutations = {
   },
   deleteBoard(state, payload) {
     state.boards = state.boards.filter(board => board.id !== payload)
+  },
+  addTask(state, {id, payload}) {
+    state.boards.find(board => board.id === id).data.todo.push(payload)
+  },
+  editTodo(state, {id, payload}) {
+    state.boards.find(board => board.id === id).data.todo = [...payload]
   }
 }
 
 export const actions = {
   addBoard({commit}, board){
+    board.data = {
+      todo: [],
+      inProgress: [],
+      done: [],
+    }
     commit('addBoard', board)
   },
   generateId({commit}) {
@@ -51,5 +65,18 @@ export const actions = {
       } else return item
     })
     commit('editBoard', newArray)
+  },
+  addTask({commit, state}, {id, payload}) {
+    const currentBoardData = state.boards.find(board => board.id === id).data;
+    if(!currentBoardData.todo.length) {
+      payload.id = 1;
+    } else {
+      let lastId = currentBoardData.todo[currentBoardData.todo.length - 1].id;
+      payload.id = lastId += 1
+    }
+    commit('addTask', {id, payload});
+  },
+  editTodo({commit, state}, {id, payload}) {
+    commit('editTodo', {id, payload});
   }
 }
