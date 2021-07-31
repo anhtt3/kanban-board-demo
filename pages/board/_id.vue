@@ -7,10 +7,10 @@
       </v-col>
       <v-col cols="2" class="d-flex">
         <div class="spacer"></div>
-        <v-btn icon color="info" @click="editBoardDialog = true">
+        <v-btn fab dark small color="info" class="mx-2" @click="editBoardDialog = true">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn icon color="red" @click="deleteDialog = true">
+        <v-btn fab dark small color="red" class="mx-2" @click="deleteDialog = true">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
         <BoardDialog v-if="editBoardDialog" :board-detail="boardDetail" v-model="editBoardDialog"
@@ -61,8 +61,9 @@ export default {
       editBoardDialog: false,
     }
   },
-  created() {
+  mounted() {
     this.currentBoardId = parseInt(this.$route.params.id);
+    this.$store.commit('setMainBackground', this.boardDetail.image.url)
   },
   computed: {
     boardDetail() {

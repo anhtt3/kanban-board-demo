@@ -26,7 +26,7 @@
     >
       <v-card>
         <v-card-title>
-          Add new task
+          Edit Task
         </v-card-title>
         <v-card-text>
           <v-text-field

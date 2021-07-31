@@ -1,5 +1,7 @@
 <template>
   <v-app dark>
+    <div class="board-background" :style="{backgroundImage: mainBackground }">
+    </div>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -53,6 +55,7 @@
 
     </v-app-bar>
     <v-main>
+
       <v-container fluid>
         <Nuxt />
       </v-container>
@@ -67,8 +70,6 @@
 </template>
 
 <script>
-import Vuex from 'vuex'
-
 export default {
   data () {
     return {
@@ -85,8 +86,35 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Kanban board'
+      title: 'Kanban board',
     }
   },
+  mounted() {
+    this.updateBackground();
+  },
+  watch: {
+    $route () {
+     this.updateBackground();
+    }
+  },
+  computed: {
+    mainBackground() {
+      return `url(${this.$store.state.selectedBackground})`;
+    }
+  },
+  methods: {
+    updateBackground() {
+      (this.$route.path === '/') &&
+      this.$store.commit('setMainBackground', 'https://trello-backgrounds.s3.amazonaws.com/53baf533e697a982248cd73f/2048x2048/22ec03aab9d36ea49139c569a62bb079/shutterstock_134707556.jpg')
+    }
+  }
 }
 </script>
+<style lang="scss">
+.board-background{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+}
+</style>

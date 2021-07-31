@@ -2,7 +2,8 @@ import Vue from 'vue';
 
 export const state = () => ({
   generatedId: 1,
-  boards: []
+  boards: [],
+  selectedBackground: ''
 })
 
 export const getters = {
@@ -12,7 +13,7 @@ export const getters = {
        id: board.id,
        name: board.name,
        description: board.description,
-       imgUrl: board.imgUrl,
+       image: board.image,
      }
     })
   },
@@ -25,12 +26,18 @@ export const getters = {
 }
 
 export const mutations = {
+  // MECHANISM FUNCTIONS TO CREATE FAKE ID INSTEAD OF SERVER
   generateId(state) {
     state.generatedId++
   },
   generateTaskId(state, id) {
     state.boards.find(board => board.id === id).data.generatedTaskId++
   },
+  setMainBackground(state, url) {
+    state.selectedBackground = url;
+  },
+
+  // BOARD MUTATIONS
   addBoard(state, payload) {
     state.boards = [...state.boards, payload];
   },
@@ -40,6 +47,8 @@ export const mutations = {
   deleteBoard(state, payload) {
     state.boards = state.boards.filter(board => board.id !== payload)
   },
+
+  // TASK MUTATIONS
   addTask(state, {id, payload}) {
     state.boards.find(board => board.id === id).data.todo.push(payload)
   },
@@ -49,10 +58,10 @@ export const mutations = {
   deleteTask(state, {boardId, type, index}) {
     state.boards.find(board => board.id === boardId).data[type].splice(index, 1);
   },
-
 }
 
 export const actions = {
+  // BOARD ACTIONS
   addBoard({commit}, board){
     Vue.set(board, 'data', {
       generatedTaskId: 1,
@@ -71,11 +80,14 @@ export const actions = {
   editBoard({commit, state}, payload) {
     const newArray = state.boards.map(item => {
       if(item.id === payload.id) {
-        return {...item, ...payload}
+        return payload
       } else return item
     })
     commit('editBoard', newArray)
+    commit('setMainBackground', payload.image.url)
   },
+
+  // TASKS ACTIONS
   addTask({commit, state}, {id, payload}) {
     const currentBoardData = state.boards.find(board => board.id === id).data;
     if(!currentBoardData.todo.length) {

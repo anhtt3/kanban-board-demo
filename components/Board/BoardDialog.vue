@@ -37,13 +37,13 @@
               <v-row>
                 <v-col v-for="img in imgBackgrounds" :key="img.id" cols="4">
                   <v-img
-                    :src="img.url"
+                    :src="img.smallUrl"
                     aspect-ratio="1"
                     height="160"
                     width="160"
                     class="cursor-pointer background-item"
-                    :class="{selected : (img.url === selected) }"
-                    @click="selected = img.url; chooseBackground(img.url)"
+                    :class="{selected : (img.id === selected) }"
+                    @click="selected = img.id; chooseBackground(img.id)"
                   >
                     <template v-slot:placeholder>
                       <v-row
@@ -88,30 +88,25 @@
   </v-dialog>
 </template>
 <script>
+import {backgroundData} from '~/assets/models/staticBackgroundList'
+
 export default {
   props: ['value', 'boardDetail'],
   data() {
-    const imgBackgrounds = [
-      {
-        url: "https://cdn.vuetifyjs.com/images/cards/house.jpg"
-      },
-      {
-        url: "https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-      }
-    ];
     return {
-      imgBackgrounds: imgBackgrounds,
+      imgBackgrounds: backgroundData,
       boardEdit: this.boardDetail ? {...this.boardDetail} : {
         name: "",
         description: "",
-        imgUrl: ""
+        image: backgroundData[0]
       },
-      selected: this.boardDetail ? this.boardDetail.imgUrl : imgBackgrounds[0].url
+      // SET DEFAULT BACKGROUND
+      selected: this.boardDetail ? this.boardDetail.image.id : backgroundData[0].id
     }
   },
   methods: {
-    chooseBackground(url) {
-      this.boardEdit.imgUrl = url
+    chooseBackground(id) {
+      this.boardEdit.image = this.imgBackgrounds.find(item => item.id === id);
     },
     closeDialog() {
       this.$emit('input');
