@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 export const state = () => ({
   generatedId: 1,
   boards: []
@@ -20,6 +22,12 @@ export const getters = {
   todoList: state => id => {
     return state.boards.find(board => board.id === id).data.todo
   },
+  inProgressList: state => id => {
+    return state.boards.find(board => board.id === id).data.inProgress
+  },
+  doneList: state => id => {
+    return state.boards.find(board => board.id === id).data.done
+  },
 }
 
 export const mutations = {
@@ -27,7 +35,7 @@ export const mutations = {
     state.generatedId++
   },
   addBoard(state, payload) {
-    state.boards.push(payload)
+    state.boards = [...state.boards, payload];
   },
   editBoard(state, newBoards) {
    state.boards = newBoards
@@ -40,16 +48,19 @@ export const mutations = {
   },
   editTodo(state, {id, payload}) {
     state.boards.find(board => board.id === id).data.todo = [...payload]
+  },
+  editInProgress(state, {id, payload}) {
+    state.boards.find(board => board.id === id).data.inProgress = [...payload]
   }
 }
 
 export const actions = {
   addBoard({commit}, board){
-    board.data = {
+    Vue.set(board, 'data', {
       todo: [],
       inProgress: [],
       done: [],
-    }
+    });
     commit('addBoard', board)
   },
   generateId({commit}) {
@@ -78,5 +89,8 @@ export const actions = {
   },
   editTodo({commit, state}, {id, payload}) {
     commit('editTodo', {id, payload});
+  },
+  editInProgress({commit, state}, {id, payload}) {
+    commit('editInProgress', {id, payload});
   }
 }

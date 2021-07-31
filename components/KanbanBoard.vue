@@ -14,8 +14,8 @@
           </v-btn>
         </v-card-title>
         <div class="task_list">
-          <v-list v-if="todoList.length" class="list">
-            <draggable v-model="todoList" ghost-class="ghost">
+          <v-list class="list">
+            <draggable v-model="todoList" group="all-tasks" ghost-class="ghost">
               <v-list-item v-for="(item, index) in todoList" :key="item.id">
                 <v-hover v-slot="{ hover }">
                   <v-card class="task-card d-flex">
@@ -31,13 +31,29 @@
           </v-list>
         </div>
       </v-card>
-
     </v-col>
     <v-col cols="4">
       <v-card>
         <v-card-title>
           In progress
         </v-card-title>
+        <div class="task_list">
+          <v-list class="list">
+            <draggable v-model="inProgressList" group="all-tasks" ghost-class="ghost">
+              <v-list-item v-for="(item, index) in inProgressList" :key="item.id">
+                <v-hover v-slot="{ hover }">
+                  <v-card class="task-card d-flex">
+                    {{item.description}}
+                    <v-spacer></v-spacer>
+                    <v-btn v-if="hover" icon class="task-edit-btn" color="info" @click="editBoardDialog = true">
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                  </v-card>
+                </v-hover>
+              </v-list-item>
+            </draggable>
+          </v-list>
+        </div>
       </v-card>
     </v-col>
     <v-col cols="4">
@@ -47,6 +63,7 @@
         </v-card-title>
       </v-card>
     </v-col>
+
 
 <!--    ADD TASK DIALOG-->
     <v-dialog
@@ -108,12 +125,20 @@ export default {
   computed: {
     todoList: {
       get() {
-        console.log(this.$store.getters.todoList(this.boardId));
           return this.$store.getters.todoList(this.boardId)
       },
       set(value) {
         const id = this.boardId;
         this.$store.dispatch('editTodo', {id: id, payload: value})
+      }
+    },
+    inProgressList: {
+      get() {
+        return this.$store.getters.inProgressList(this.boardId)
+      },
+      set(value) {
+        const id = this.boardId;
+        this.$store.dispatch('editInProgress', {id: id, payload: value})
       }
     }
   },

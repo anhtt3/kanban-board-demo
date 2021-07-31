@@ -113,13 +113,7 @@ export default {
     chooseBackground(url) {
       this.boardEdit.imgUrl = url
     },
-    clearDialog() {
-      this.boardEdit.name = "";
-      this.boardEdit.imgUrl = "";
-      this.boardEdit.description = "";
-    },
     closeDialog() {
-      this.boardDetail || this.clearDialog();
       this.$emit('input');
     },
     saveBoard() {
