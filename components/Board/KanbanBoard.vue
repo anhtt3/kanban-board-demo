@@ -34,41 +34,7 @@
     </v-col>
 
 <!--    ADD TASK DIALOG-->
-    <v-dialog
-      v-model="addingTaskDialog"
-      max-width="500px"
-    >
-      <v-card>
-        <v-card-title>
-          Add new task
-        </v-card-title>
-        <v-card-text>
-          <v-text-field
-            label="Task Description"
-            v-model="newTask.description"
-            required
-          ></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="closeAddTaskDialog"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="addTask"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
+    <TaskDialog v-if="addingTaskDialog" v-model="addingTaskDialog" v-on:confirm="addTask" />
   </v-row>
 </template>
 <script>
@@ -89,12 +55,11 @@ export default {
   },
 
   methods: {
-    addTask() {
-      const payload = {...this.newTask};
-      this.$store.dispatch('addTask', {id: this.boardId, payload: payload});
-      this.closeAddTaskDialog();
+    addTask(newTask) {
+      this.$store.dispatch('addTask', {id: this.boardId, payload: newTask});
+      this.closeTaskDialog();
     },
-    closeAddTaskDialog() {
+    closeTaskDialog() {
       this.addingTaskDialog = false;
       this.newTask =  {...taskModel}
     }

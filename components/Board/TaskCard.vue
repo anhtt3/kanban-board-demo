@@ -20,40 +20,7 @@
         </v-list-item>
       </draggable>
     </v-list>
-    <v-dialog
-      v-model="editTaskDialog"
-      max-width="500px"
-    >
-      <v-card>
-        <v-card-title>
-          Edit Task
-        </v-card-title>
-        <v-card-text>
-          <v-text-field
-            label="Task Description"
-            v-model="taskModel.description"
-            required
-          ></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="editTaskDialog = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="submitEditedTask"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <TaskDialog v-if="editTaskDialog" v-model="editTaskDialog" :task-detail="taskModel" v-on:confirm="submitEditedTask" />
   </div>
 </template>
 <script>
@@ -90,13 +57,13 @@ export default {
       this.$store.dispatch('deleteTask', {boardId: this.boardId, type: this.type, id: id});
     },
     openEditDialog(model) {
+      this.taskModel = {...model};
       this.editTaskDialog = true;
-      this.taskModel = {...model}
     },
-    submitEditedTask() {
+    submitEditedTask(editedTask) {
       const payload = this.listData.map(item => {
-        if(item.id === this.taskModel.id) {
-            item.description = this.taskModel.description
+        if(item.id === editedTask.id) {
+            item.description = editedTask.description
         }
         return item;
       })
