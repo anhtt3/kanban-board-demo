@@ -39,7 +39,7 @@ The demo has the following features:
 
 In this demo, I simplify some features should have in real project such as: 
 - validation (We can use 3rd libraries such as Vuelidate)
-- API fetching (Using localstorage as required)
+- API fetching (currently using localstorage as required)
 
 ### Task 2
 I have created the documentation for API that should implement into this project. You can see the detail as the swagger link above.
