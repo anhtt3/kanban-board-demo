@@ -49,7 +49,7 @@
         </v-dialog>
       </v-col>
     </v-row>
-    <KanbanBoard  v-if="boardDetail" :boardId="this.currentBoardId" ></KanbanBoard>
+    <KanbanBoard  v-if="boardDetail" :boardId="this.currentBoardId" :max-task="boardDetail.maxTasksOfColumns" ></KanbanBoard>
   </div>
 </template>
 <script>

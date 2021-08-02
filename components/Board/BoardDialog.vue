@@ -26,6 +26,19 @@
               <v-col
                 cols="12"
               >
+                <v-text-field
+                  type="number"
+                  :min="10"
+                  :max="100"
+                  label="Max column's task"
+                  :rules="[numberRule]"
+                  v-model="boardEdit.maxTasksOfColumns"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+              >
                 <v-textarea
                   dense
                   rows="4"
@@ -82,7 +95,7 @@
             color="blue darken-1"
             text
             :disabled="!boardEdit.name"
-            @click="saveBoard"
+            type="submit"
           >
             Save
           </v-btn>
@@ -102,7 +115,12 @@ export default {
       boardEdit: this.boardDetail ? {...this.boardDetail} : {
         name: "",
         description: "",
+        maxTasksOfColumns: 10,
         image: backgroundData[0]
+      },
+      numberRule: val => {
+        if(val < 0) return 'Please enter a positive number'
+        return true
       },
       // SET DEFAULT BACKGROUND
       selected: this.boardDetail ? this.boardDetail.image.id : backgroundData[0].id

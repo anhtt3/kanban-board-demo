@@ -1,7 +1,7 @@
 <template>
   <div class="task_list">
     <v-list class="list">
-      <draggable v-model="listData" :group="{name: group, put: !(type !== 'todo' && listData.length > 9)}"
+      <draggable v-model="listData" :group="{name: group, put: !(type !== 'todo' && listData.length >= maxTask)}"
                  ghost-class="ghost">
         <v-list-item v-for="item in listData" :key="item.id">
           <v-hover v-slot="{ hover }">
@@ -31,7 +31,7 @@ const taskModel = {
   description: "",
 }
 export default {
-  props: ['boardId', 'type'],
+  props: ['boardId', 'type', 'maxTask'],
   components: {
     draggable,
   },

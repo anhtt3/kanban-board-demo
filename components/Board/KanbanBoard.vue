@@ -19,17 +19,17 @@
     <v-col cols="4">
       <v-card>
         <v-card-title>
-          In progress <sub class="caption ml-2"> (max: 10)</sub>
+          In progress <sub class="caption ml-2"> (max: {{ maxTask }})</sub>
         </v-card-title>
-        <TaskCard :board-id="boardId" type="inProgress"/>
+        <TaskCard :board-id="boardId" type="inProgress" :max-task="maxTask"/>
       </v-card>
     </v-col>
     <v-col cols="4">
       <v-card>
         <v-card-title>
-          Done <sub class="caption ml-2"> (max: 10)</sub>
+          Done <sub class="caption ml-2"> (max: {{ maxTask }})</sub>
         </v-card-title>
-        <TaskCard :board-id="boardId" type="done"/>
+        <TaskCard :board-id="boardId" type="done" :max-task="maxTask"/>
       </v-card>
     </v-col>
 
@@ -45,7 +45,7 @@ const taskModel =  {
 }
 
 export default {
-  props: ['boardId'],
+  props: ['boardId', 'maxTask'],
   data() {
     return {
       addingTaskDialog: false,
@@ -53,7 +53,6 @@ export default {
       group: 'all-tasks'
     }
   },
-
   methods: {
     addTask(newTask) {
       this.$store.dispatch('addTask', {id: this.boardId, payload: newTask});

@@ -4,66 +4,42 @@
 
 ```bash
 # install dependencies
-$ npm install
+$ npm install or yarn install
 
 # serve with hot reload at localhost:3000
-$ npm run dev
+$ npm run dev or yarn dev
 
 # build for production and launch server
-$ npm run build
-$ npm run start
+$ npm run build or yarn build
+$ npm run start or yarn start
 
 # generate static project
-$ npm run generate
+$ npm run generate or yarn generate
 ```
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
 
-## Special Directories
+## API documentation
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+https://app.swaggerhub.com/apis-docs/anhtt3/kanban.demo/1.0.0
 
-### `assets`
+## What in this demo
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+### Task 1
+I have created a demo for Kanban board as required 
+This project is built using NuxtJS, a framework of VueJS that support many modern features
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+The demo has the following features:
+- Create/Update/Delete board
+- Changing background when switching screen (this one is added as a plus)
+- Create/Update/Delete Task
+- Drag and drop task between columns : Todo, In progress and Done
+- Config number of task in columns (Personally I have set the config only affects 'In Progress' and 'Done' column,
+  'To do' column should be unlimited)
 
-### `components`
+In this demo, I simplify some features should have in real project such as: 
+- validation (We can use 3rd libraries such as Vuelidate)
+- API fetching (Using localstorage as required)
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+### Task 2
+I have created the documentation for API that should implement into this project. You can see the detail as the swagger link above.
